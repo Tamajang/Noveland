@@ -4,7 +4,7 @@ type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme?: () => void;
+  toggleTheme: () => void;
   switchable: boolean;
 }
 
@@ -36,20 +36,21 @@ export function ThemeProvider({
     } else {
       root.classList.remove("dark");
     }
+    // Also set data-theme on body for CSS variable switching
+    document.body.setAttribute('data-theme', theme);
 
     if (switchable) {
       localStorage.setItem("theme", theme);
     }
   }, [theme, switchable]);
 
-  const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
-    : undefined;
+  // Always expose toggleTheme (even if not switchable, for our custom toggle)
+  const toggleTheme = () => {
+    setTheme(prev => (prev === "light" ? "dark" : "light"));
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme: toggleTheme, switchable }}>
       {children}
     </ThemeContext.Provider>
   );

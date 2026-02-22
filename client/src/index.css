@@ -27,90 +27,71 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* NoveLand - Dark Cinematic Theme
+   Primary: #405fff (electric blue)
+   Background: #0e0e0e (near-black)
+   Surface: #161616 (card bg)
+   Font: Kanit (Thai sans-serif)
+*/
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --primary-color: #405fff;
+  --primary-hover: #354fcf;
+  --bg-dark: rgb(14, 14, 14);
+  --bg-light: rgb(255, 255, 255);
+  --surface-dark: #161616;
+  --surface-light: #f5f5f5;
+  --gold: #ffd650;
+  --danger: #db4040;
+  --radius: 0.75rem;
 }
 
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
+/* Dark mode (default) */
+:root, body {
+  --background: oklch(0.09 0.005 285);
+  --foreground: oklch(0.95 0.005 285);
+  --card: oklch(0.12 0.005 285);
+  --card-foreground: oklch(0.95 0.005 285);
+  --popover: oklch(0.12 0.005 285);
+  --popover-foreground: oklch(0.95 0.005 285);
+  --primary: oklch(0.55 0.22 264);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.18 0.005 285);
+  --secondary-foreground: oklch(0.85 0.005 285);
+  --muted: oklch(0.18 0.005 285);
+  --muted-foreground: oklch(0.6 0.01 285);
+  --accent: oklch(0.18 0.005 285);
+  --accent-foreground: oklch(0.95 0.005 285);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.55 0.22 264);
+}
+
+/* Light mode */
+body[data-theme="light"] {
+  --background: oklch(0.98 0.002 240);
+  --foreground: oklch(0.15 0.01 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.01 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.01 260);
+  --primary: oklch(0.55 0.22 264);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.94 0.005 240);
+  --secondary-foreground: oklch(0.25 0.01 260);
+  --muted: oklch(0.94 0.005 240);
+  --muted-foreground: oklch(0.5 0.01 260);
+  --accent: oklch(0.94 0.005 240);
+  --accent-foreground: oklch(0.15 0.01 260);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.15 0 0 / 15%);
+  --input: oklch(0.15 0 0 / 10%);
+  --ring: oklch(0.55 0.22 264);
 }
 
 @layer base {
@@ -119,39 +100,32 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Kanit', 'Sarabun', sans-serif;
+    transition: background-color 0.5s, color 0.5s;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
+  a[href] {
     @apply cursor-pointer;
+  }
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
   }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -162,16 +136,468 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1400px;
     }
   }
+}
+
+/* ===== SHIMMER LOADING ANIMATION ===== */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    92deg,
+    rgba(157, 156, 255, 0.08) 19%,
+    rgba(157, 156, 255, 0.2) 31%,
+    rgba(157, 156, 255, 0.08) 65%
+  );
+  background-size: 200%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 0.5rem;
+}
+
+/* ===== NAVBAR ===== */
+.ln-navbar {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, var(--background) 100%);
+  transition: all 0.5s;
+  display: flex;
+  align-items: center;
+}
+
+.ln-navbar.scrolled {
+  background: var(--background) !important;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+body[data-theme="light"] .ln-navbar {
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(245,248,255,0.95) 100%);
+}
+
+body[data-theme="light"] .ln-navbar.scrolled {
+  background: rgba(245,248,255,0.98) !important;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+/* ===== HERO SECTION ===== */
+.ln-hero {
+  width: 100%;
+  height: 35vw;
+  min-height: 300px;
+  max-height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ln-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  background: linear-gradient(0deg, var(--background) 0%, rgba(0,0,0,0) 100%);
+  z-index: 1;
+}
+
+/* ===== NOVEL CARD ===== */
+.novel-card {
+  position: relative;
+  width: 100%;
+  transition: transform 0.5s;
+}
+
+.novel-card:hover {
+  transform: scale(1.08);
+  z-index: 10;
+}
+
+.novel-cover {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 0.75rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.novel-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  background-color: rgba(53, 79, 207, 0.5);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.novel-card:hover .novel-cover::after {
+  opacity: 1;
+}
+
+.novel-cover .backdrop-icon {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 3rem;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.novel-card:hover .backdrop-icon {
+  opacity: 1;
+}
+
+.novel-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0 0.75rem 0 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  z-index: 2;
+}
+
+.novel-ep-badge {
+  position: absolute;
+  top: 1.8rem;
+  right: 0;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  background: #db4040;
+  color: white;
+  z-index: 2;
+}
+
+/* ===== NOVELCARD LIST (horizontal card) ===== */
+.novelcard-item {
+  width: 100%;
+  height: 10rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.5s;
+  color: var(--foreground);
+  text-decoration: none;
+  display: flex;
+}
+
+.novelcard-item:hover {
+  border-color: var(--foreground);
+  box-shadow: 0 0 0.5rem var(--foreground);
+}
+
+.novelcard-item .blur-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(60px);
+  opacity: 0.3;
+}
+
+body[data-theme="light"] .novelcard-item .blur-bg {
+  opacity: 0 !important;
+}
+
+.novelcard-item:hover .blur-bg {
+  opacity: 0 !important;
+}
+
+/* ===== TOP 10 RANKING ===== */
+.ranking-number {
+  font-family: 'Fjalla One', 'Kanit', sans-serif;
+  font-size: 10rem;
+  line-height: 1;
+  -webkit-text-stroke: 0.2rem #405fff;
+  color: transparent;
+  position: absolute;
+  top: -2rem;
+  left: -3rem;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== SECTION TITLE ===== */
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #405fff;
+  box-shadow: 0 2px 8px #405fff;
+}
+
+/* ===== MOBILE APP BAR ===== */
+.ln-appbar {
+  position: fixed;
+  bottom: 1rem;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ln-appbar .app-bar-inner {
+  width: 92%;
+  height: 3.5rem;
+  background: rgba(22, 22, 22, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: all 0.5s;
+}
+
+body[data-theme="light"] .ln-appbar .app-bar-inner {
+  background: rgba(255,255,255,0.85);
+}
+
+/* ===== ACCORDION (Chapter List) ===== */
+.ln-accordion-header {
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ln-accordion-header:hover {
+  background: var(--border);
+}
+
+.ln-accordion-header.open {
+  background: rgba(64, 95, 255, 0.1);
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.chapter-item:hover {
+  background: var(--border);
+}
+
+.chapter-item.seen {
+  background: rgba(99, 169, 219, 0.12);
+}
+
+/* ===== READING PAGE ===== */
+.reading-page {
+  background: rgb(233, 233, 233);
+  min-height: 100vh;
+}
+
+.reading-page[data-theme="dark"] {
+  background: rgb(26, 26, 26);
+}
+
+.reading-content {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 0 0.5rem rgba(0,0,0,0.1);
+  margin-bottom: 5rem;
+}
+
+.reading-page[data-theme="dark"] .reading-content {
+  background: rgb(37, 37, 37);
+}
+
+.story-text p {
+  margin-block-start: 0.25rem;
+  margin-block-end: 0.25rem;
+  text-indent: 2em;
+  line-height: 1.8;
+}
+
+/* ===== SWITCH MODE TOGGLE ===== */
+.switch-mode {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ===== MODAL ===== */
+.ln-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== SEARCH PAGE ===== */
+.search-input-wrapper {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  transition: border-color 0.3s;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: #405fff;
+}
+
+/* ===== FOOTER ===== */
+.ln-footer {
+  background: rgb(10, 10, 10);
+  color: white;
+}
+
+body[data-theme="light"] .ln-footer {
+  background: rgb(30, 40, 60);
+  color: white;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(145, 145, 145, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #405fff;
+}
+
+/* ===== CATEGORY BADGE ===== */
+.category-badge {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  border-radius: 25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(120deg, rgb(129, 150, 255) 0%, rgb(64, 95, 255) 50%, rgb(43, 66, 190) 100%);
+  color: white;
+  text-decoration: none;
+}
+
+/* ===== TAG ===== */
+.novel-tag {
+  display: inline-block;
+  color: white;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 0.4rem;
+  background: linear-gradient(120deg, rgba(69,69,69,0.6) 50%, rgba(61,61,61,0.5) 100%);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.novel-tag:hover {
+  background: linear-gradient(120deg, rgb(129, 150, 255) 0%, rgb(64, 95, 255) 50%, rgb(43, 66, 190) 100%);
+}
+
+/* ===== LIGHT MODE NOVEL TAG ===== */
+body[data-theme="light"] .novel-tag {
+  background: linear-gradient(120deg, rgba(200,200,220,0.8) 50%, rgba(180,180,200,0.7) 100%);
+  color: #333;
+}
+
+body[data-theme="light"] .novel-tag:hover {
+  background: linear-gradient(120deg, rgb(129, 150, 255) 0%, rgb(64, 95, 255) 50%, rgb(43, 66, 190) 100%);
+  color: white;
+}
+
+/* ===== SPLIDE CAROUSEL OVERRIDE ===== */
+.splide__track {
+  overflow: visible !important;
+}
+
+/* ===== MARQUEE ANIMATION ===== */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== FADE IN ANIMATION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* ===== GRADIENT TEXT ===== */
+.gradient-text {
+  background: linear-gradient(120deg, rgb(129, 150, 255) 0%, rgb(64, 95, 255) 50%, rgb(43, 66, 190) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== COIN ICON ===== */
+.coin-icon {
+  color: #ffd23d;
 }
