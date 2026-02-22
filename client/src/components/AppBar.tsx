@@ -4,11 +4,7 @@
 import { Link, useLocation } from 'wouter';
 import { useTheme } from '@/contexts/ThemeContext';
 
-interface AppBarProps {
-  onLoginClick: () => void;
-}
-
-export default function AppBar({ onLoginClick }: AppBarProps) {
+export default function AppBar() {
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -87,18 +83,7 @@ export default function AppBar({ onLoginClick }: AppBarProps) {
             <i className={`fa-solid fa-${theme === 'dark' ? 'moon' : 'sun'}`}></i>
           </div>
 
-          {/* Login */}
-          <div
-            className="flex flex-1 items-center justify-center"
-            onClick={onLoginClick}
-            style={{
-              color: 'var(--foreground)',
-              fontSize: '1.2rem',
-              cursor: 'pointer',
-            }}
-          >
-            <i className="fa-solid fa-right-to-bracket"></i>
-          </div>
+
         </div>
       </div>
     </div>

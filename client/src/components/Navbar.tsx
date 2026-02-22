@@ -6,11 +6,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { useTheme } from '@/contexts/ThemeContext';
 
-interface NavbarProps {
-  onLoginClick: () => void;
-}
-
-export default function Navbar({ onLoginClick }: NavbarProps) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const [, navigate] = useLocation();
@@ -78,25 +74,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
           </div>
         </div>
 
-        {/* Login Button */}
-        <button
-          onClick={onLoginClick}
-          style={{
-            padding: '0.4rem 1.25rem',
-            borderRadius: '0.75rem',
-            background: '#405fff',
-            border: 'none',
-            color: 'white',
-            fontSize: '0.95rem',
-            fontFamily: "'Kanit', sans-serif",
-            cursor: 'pointer',
-            transition: 'background 0.3s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.background = '#354fcf')}
-          onMouseLeave={e => (e.currentTarget.style.background = '#405fff')}
-        >
-          เข้าสู่ระบบ
-        </button>
+
       </div>
     </nav>
   );

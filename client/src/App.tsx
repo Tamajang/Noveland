@@ -2,7 +2,7 @@
 // Design: Dark Cinematic Novel Platform
 // Routes: Home, Novel Detail, Read Chapter, Search, Category, Bookmarks, Wallet, TopUp, Privacy, Terms, Contact
 
-import { useState } from 'react';
+
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Route, Switch } from "wouter";
@@ -10,8 +10,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Navbar from "./components/Navbar";
 import AppBar from "./components/AppBar";
-import Footer from "./components/Footer";
-import LoginModal from "./components/LoginModal";
 
 // Pages
 import Home from "./pages/Home";
@@ -32,25 +30,22 @@ function ReadingLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// Main layout with navbar, footer, mobile appbar
+// Main layout with navbar, mobile appbar (no footer)
 function MainLayout({
   children,
-  onLoginClick,
 }: {
   children: React.ReactNode;
-  onLoginClick: () => void;
 }) {
   return (
     <>
-      <Navbar onLoginClick={onLoginClick} />
+      <Navbar />
       <main>{children}</main>
-      <Footer />
-      <AppBar onLoginClick={onLoginClick} />
+      <AppBar />
     </>
   );
 }
 
-function Router({ onLoginClick }: { onLoginClick: () => void }) {
+function Router() {
   return (
     <Switch>
       {/* Reading page - no navbar/footer */}
@@ -65,84 +60,84 @@ function Router({ onLoginClick }: { onLoginClick: () => void }) {
       {/* All other pages with navbar/footer */}
       <Route path="/">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Home />
           </MainLayout>
         )}
       </Route>
       <Route path="/novel/:id">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <NovelDetail />
           </MainLayout>
         )}
       </Route>
       <Route path="/search">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Search />
           </MainLayout>
         )}
       </Route>
       <Route path="/category/:slug">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Category />
           </MainLayout>
         )}
       </Route>
       <Route path="/bookmarks">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Bookmarks />
           </MainLayout>
         )}
       </Route>
       <Route path="/wallet">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Wallet />
           </MainLayout>
         )}
       </Route>
       <Route path="/topup">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <TopUp />
           </MainLayout>
         )}
       </Route>
       <Route path="/privacy">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Privacy />
           </MainLayout>
         )}
       </Route>
       <Route path="/terms">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Terms />
           </MainLayout>
         )}
       </Route>
       <Route path="/contact">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <Contact />
           </MainLayout>
         )}
       </Route>
       <Route path="/404">
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <NotFound />
           </MainLayout>
         )}
       </Route>
       <Route>
         {() => (
-          <MainLayout onLoginClick={onLoginClick}>
+          <MainLayout>
             <NotFound />
           </MainLayout>
         )}
@@ -152,15 +147,12 @@ function Router({ onLoginClick }: { onLoginClick: () => void }) {
 }
 
 function App() {
-  const [loginOpen, setLoginOpen] = useState(false);
-
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark" switchable>
         <TooltipProvider>
           <Toaster />
-          <Router onLoginClick={() => setLoginOpen(true)} />
-          <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
+          <Router />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
