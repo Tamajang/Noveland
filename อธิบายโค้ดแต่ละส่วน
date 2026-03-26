@@ -1,0 +1,624 @@
+# อธิบายโค้ด NoveLand - เว็บไซต์อ่านนิยายออนไลน์
+
+## 📋 สารบัญ
+1. [โครงสร้างโปรเจค](#โครงสร้างโปรเจค)
+2. [ไฟล์หลักและหน้าที่](#ไฟล์หลักและหน้าที่)
+3. [อธิบายแต่ละไฟล์](#อธิบายแต่ละไฟล์)
+4. [Flow ของการทำงาน](#flow-ของการทำงาน)
+
+---
+
+## 🏗️ โครงสร้างโปรเจค
+
+```
+thainovel/
+├── client/
+│   ├── public/                 # ไฟล์ static (ภาพ, ไอคอน)
+│   ├── src/
+│   │   ├── components/         # React Components ที่ใช้ซ้ำได้
+│   │   ├── contexts/           # Theme Context (Dark/Light Mode)
+│   │   ├── lib/
+│   │   │   └── data.ts        # ข้อมูลตัวอย่างนิยาย
+│   │   ├── pages/             # หน้าต่างๆ (Home, Novel, Read, Search)
+│   │   ├── App.tsx            # ไฟล์หลักของ React
+│   │   ├── main.tsx           # Entry point
+│   │   └── index.css          # CSS global
+│   └── index.html             # HTML template
+├── server/                     # Backend (ยังไม่ใช้)
+├── package.json               # Dependencies
+└── tsconfig.json              # TypeScript config
+```
+
+---
+
+## 📁 ไฟล์หลักและหน้าที่
+
+### 1. **App.tsx** - ไฟล์หลักของแอปพลิเคชัน
+**หน้าที่:** จัดการ routing (นำทาง) และ theme ของเว็บไซต์
+
+```typescript
+// ตัวอย่างโครงสร้าง:
+function Router() {
+  return (
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/search"} component={Search} />
+      <Route path={"/novel/:id"} component={NovelDetail} />
+      <Route path={"/read/:id/:chapter"} component={ReadChapter} />
+      {/* ... หน้าอื่นๆ */}
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider defaultTheme="dark">
+      <Router />
+    </ThemeProvider>
+  );
+}
+```
+
+**ความสำคัญ:**
+- ใช้ `wouter` library สำหรับ client-side routing
+- ใช้ `ThemeProvider` เพื่อจัดการ Dark/Light Mode ทั่วทั้งเว็บ
+
+---
+
+### 2. **index.css** - CSS Global
+**หน้าที่:** กำหนดสีพื้นฐาน ฟอนต์ และ CSS Variables
+
+```css
+:root {
+  /* สีพื้นฐาน */
+  --background: oklch(0.141 0.005 285.823);      /* สีพื้นหลัง (ดำ) */
+  --foreground: oklch(0.85 0.005 65);            /* สีข้อความ (ขาว) */
+  --primary: var(--color-blue-700);              /* สีหลัก (น้ำเงิน) */
+  --accent: oklch(0.967 0.001 286.375);          /* สีเน้น */
+  
+  /* ฟอนต์ */
+  --font-sans: 'Kanit', sans-serif;
+  --font-serif: 'Sarabun', serif;
+}
+
+.dark {
+  /* ธีมมืด */
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.85 0.005 65);
+}
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: oklch(1 0 0);                  /* สีขาว */
+    --foreground: oklch(0.235 0.015 65);         /* สีดำ */
+  }
+}
+```
+
+**ความสำคัญ:**
+- ใช้ CSS Variables ทำให้เปลี่ยนธีมได้ง่าย
+- ใช้ OKLCH color model สำหรับสีที่ดูสมดุล
+
+---
+
+### 3. **lib/data.ts** - ข้อมูลตัวอย่าง
+**หน้าที่:** เก็บข้อมูลนิยายตัวอย่างที่ใช้ทั่วทั้งเว็บ
+
+```typescript
+export const novels = [
+  {
+    id: 1,
+    title: "ราชันย์แห่งความมืด",
+    author: "นักเขียนชื่อดัง",
+    cover: "https://...",
+    category: "แฟนตาซี",
+    status: "กำลังดำเนินการ",
+    views: 1200000,
+    rating: 4.8,
+    description: "เรื่องราวของ...",
+    chapters: [
+      { id: 1, title: "ตอนที่ 1: เริ่มต้น", content: "..." },
+      { id: 2, title: "ตอนที่ 2: การผจญภัย", content: "..." },
+    ]
+  },
+  // ... นิยายอื่นๆ
+];
+
+export const categories = [
+  { id: 1, name: "แฟนตาซี", color: "#405fff" },
+  { id: 2, name: "โรแมนติก", color: "#ff6b9d" },
+  // ...
+];
+```
+
+**ความสำคัญ:**
+- ข้อมูลทั้งหมดเก็บไว้ที่นี่
+- ทำให้ง่ายต่อการแก้ไขและเพิ่มเติม
+- ในอนาคตจะเปลี่ยนเป็นดึงจาก Backend API
+
+---
+
+### 4. **contexts/ThemeContext.tsx** - จัดการธีม
+**หน้าที่:** ให้ส่วนประกอบต่างๆ เข้าถึงและเปลี่ยนธีมได้
+
+```typescript
+interface ThemeContextType {
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
+}
+
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export function ThemeProvider({ children, defaultTheme = 'dark' }) {
+  const [theme, setTheme] = useState<'light' | 'dark'>(defaultTheme);
+
+  useEffect(() => {
+    // บันทึกธีมใน localStorage
+    localStorage.setItem('theme', theme);
+    // ใช้ CSS class เพื่อเปลี่ยนสี
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
+  return context;
+}
+```
+
+**ความสำคัญ:**
+- ใช้ React Context API เพื่อแชร์ข้อมูลธีมทั่วทั้งแอป
+- บันทึกการตั้งค่าใน localStorage เพื่อจำไว้ครั้งต่อไป
+- ส่วนประกอบใดๆ สามารถใช้ `useTheme()` เพื่อเข้าถึงธีม
+
+---
+
+## 📄 อธิบายแต่ละไฟล์
+
+### **components/Navbar.tsx** - แถบนำทางด้านบน
+**หน้าที่:** แสดงเมนูและปุ่มควบคุม
+
+```typescript
+export default function Navbar() {
+  const { theme, toggleTheme } = useTheme();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  return (
+    <nav className="navbar">
+      <div className="navbar-left">
+        <Link href="/">
+          <h1 className="logo">NoveLand</h1>
+        </Link>
+      </div>
+
+      <div className="navbar-center">
+        <input
+          type="text"
+          placeholder="ค้นหานิยาย..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      <div className="navbar-right">
+        <button onClick={toggleTheme} className="theme-toggle">
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+      </div>
+    </nav>
+  );
+}
+```
+
+**ความสำคัญ:**
+- แสดงอยู่ด้านบนของทุกหน้า
+- มีช่องค้นหา ปุ่มเปลี่ยนธีม
+- ใช้ `useTheme()` เพื่อเข้าถึงฟังก์ชันเปลี่ยนธีม
+
+---
+
+### **components/AppBar.tsx** - แถบนำทางล่าง (Mobile)
+**หน้าที่:** แสดงเมนูด้านล่างบนมือถือ
+
+```typescript
+export default function AppBar() {
+  const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <div className="app-bar">
+      <Link href="/" className={location[0] === '/' ? 'active' : ''}>
+        <span>🏠</span>
+        <span>หน้าแรก</span>
+      </Link>
+
+      <Link href="/search" className={location[0] === '/search' ? 'active' : ''}>
+        <span>🔍</span>
+        <span>ค้นหา</span>
+      </Link>
+
+      <Link href="/bookmarks" className={location[0] === '/bookmarks' ? 'active' : ''}>
+        <span>📚</span>
+        <span>ติดตาม</span>
+      </Link>
+
+      <button onClick={toggleTheme} className="theme-btn">
+        <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
+        <span>ธีม</span>
+      </button>
+    </div>
+  );
+}
+```
+
+**ความสำคัญ:**
+- แสดงเฉพาะบนมือถือ (ใช้ CSS Media Query)
+- มี 4 ปุ่มหลัก: หน้าแรก, ค้นหา, ติดตาม, ธีม
+- ใช้ `useLocation()` เพื่อรู้ว่าอยู่หน้าไหน
+
+---
+
+### **components/NovelCard.tsx** - การ์ดนิยาย
+**หน้าที่:** แสดงข้อมูลนิยายในรูปแบบการ์ด
+
+```typescript
+interface NovelCardProps {
+  novel: Novel;
+  onClick?: () => void;
+}
+
+export default function NovelCard({ novel, onClick }: NovelCardProps) {
+  return (
+    <div className="novel-card" onClick={onClick}>
+      <div className="card-image">
+        <img src={novel.cover} alt={novel.title} />
+        <div className="card-overlay">
+          <span className="status-badge">{novel.status}</span>
+        </div>
+      </div>
+
+      <div className="card-content">
+        <h3 className="card-title">{novel.title}</h3>
+        <p className="card-author">{novel.author}</p>
+
+        <div className="card-stats">
+          <span>👁️ {formatViews(novel.views)}</span>
+          <span>⭐ {novel.rating}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+**ความสำคัญ:**
+- ใช้ซ้ำได้ในหลายหน้า (หน้าแรก, ค้นหา, หมวดหมู่)
+- แสดงรูปปก ชื่อ ผู้เขียน จำนวนผู้ชม คะแนน
+- สามารถคลิกเพื่อไปหน้ารายละเอียด
+
+---
+
+### **pages/Home.tsx** - หน้าแรก
+**หน้าที่:** แสดงหน้าแรกของเว็บไซต์
+
+```typescript
+export default function Home() {
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  // Auto-rotate hero image ทุก 5 วินาที
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroIndex(i => (i + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const updatedNovels = [...novels].sort((a, b) => 
+    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  );
+  const top10Novels = [...novels].sort((a, b) => b.views - a.views).slice(0, 10);
+
+  return (
+    <div className="home">
+      {/* Hero Section */}
+      <section className="hero">
+        <img src={HERO_IMAGES[heroIndex].url} alt="Hero" />
+        <div className="hero-content">
+          <h1>{HERO_IMAGES[heroIndex].novel.title}</h1>
+          <p>{HERO_IMAGES[heroIndex].novel.description}</p>
+        </div>
+      </section>
+
+      {/* Updated Novels Section */}
+      <section className="section">
+        <h2>อัปเดตล่าสุด</h2>
+        <div className="novel-grid">
+          {updatedNovels.map(novel => (
+            <NovelCard key={novel.id} novel={novel} />
+          ))}
+        </div>
+      </section>
+
+      {/* Top 10 Section */}
+      <section className="section">
+        <h2>Top 10 ยอดนิยม</h2>
+        <div className="novel-grid">
+          {top10Novels.map(novel => (
+            <NovelCard key={novel.id} novel={novel} />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+```
+
+**ความสำคัญ:**
+- Hero Section หมุนอัตโนมัติ
+- แสดง 3 section: อัปเดตล่าสุด, ยอดนิยม, Top 10
+- ใช้ `sort()` เพื่อเรียงลำดับนิยาย
+
+---
+
+### **pages/Search.tsx** - หน้าค้นหา
+**หน้าที่:** ค้นหาและกรองนิยาย
+
+```typescript
+export default function Search() {
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('');
+  const [status, setStatus] = useState('');
+  const [sortBy, setSortBy] = useState('views');
+
+  // กรองนิยาย
+  let results = novels.filter(novel => {
+    const matchQuery = novel.title.toLowerCase().includes(query.toLowerCase());
+    const matchCategory = !category || novel.category === category;
+    const matchStatus = !status || novel.status === status;
+    return matchQuery && matchCategory && matchStatus;
+  });
+
+  // เรียงลำดับ
+  if (sortBy === 'views') {
+    results.sort((a, b) => b.views - a.views);
+  } else if (sortBy === 'rating') {
+    results.sort((a, b) => b.rating - a.rating);
+  }
+
+  return (
+    <div className="search-page">
+      <h1>ค้นหานิยาย</h1>
+
+      <div className="search-filters">
+        <input
+          type="text"
+          placeholder="ค้นหาชื่อนิยาย..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">ทั้งหมด</option>
+          {categories.map(cat => (
+            <option key={cat.id} value={cat.name}>{cat.name}</option>
+          ))}
+        </select>
+
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="">ทั้งหมด</option>
+          <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+          <option value="จบแล้ว">จบแล้ว</option>
+        </select>
+
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="views">ยอดนิยม</option>
+          <option value="rating">คะแนนสูง</option>
+        </select>
+      </div>
+
+      <div className="novel-grid">
+        {results.map(novel => (
+          <NovelCard key={novel.id} novel={novel} />
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+**ความสำคัญ:**
+- ใช้ `filter()` เพื่อค้นหาตามคำค้นหา หมวดหมู่ สถานะ
+- ใช้ `sort()` เพื่อเรียงลำดับ
+- State ทั้งหมดอัปเดตแบบ Real-time
+
+---
+
+### **pages/ReadChapter.tsx** - หน้าอ่านนิยาย
+**หน้าที่:** แสดงเนื้อหาตอนนิยายพร้อมควบคุม
+
+```typescript
+export default function ReadChapter() {
+  const [fontSize, setFontSize] = useState(16);
+  const [fontFamily, setFontFamily] = useState('serif');
+  const [lineHeight, setLineHeight] = useState(1.8);
+  const [readingTheme, setReadingTheme] = useState('dark');
+
+  const currentNovel = novels[0]; // ตัวอย่าง
+  const currentChapter = currentNovel.chapters[0];
+
+  return (
+    <div className={`read-page read-theme-${readingTheme}`}>
+      {/* Reading Controls */}
+      <div className="reading-controls">
+        <div className="control-group">
+          <label>ขนาดตัวอักษร: {fontSize}px</label>
+          <input
+            type="range"
+            min="12"
+            max="24"
+            value={fontSize}
+            onChange={(e) => setFontSize(Number(e.target.value))}
+          />
+        </div>
+
+        <div className="control-group">
+          <label>ฟอนต์:</label>
+          <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+            <option value="serif">Sarabun (Serif)</option>
+            <option value="sans-serif">Kanit (Sans-serif)</option>
+          </select>
+        </div>
+
+        <div className="control-group">
+          <label>ระยะห่างบรรทัด: {lineHeight}</label>
+          <input
+            type="range"
+            min="1"
+            max="2.5"
+            step="0.1"
+            value={lineHeight}
+            onChange={(e) => setLineHeight(Number(e.target.value))}
+          />
+        </div>
+
+        <div className="control-group">
+          <label>ธีมการอ่าน:</label>
+          <select value={readingTheme} onChange={(e) => setReadingTheme(e.target.value)}>
+            <option value="dark">มืด</option>
+            <option value="light">สว่าง</option>
+            <option value="sepia">ซีเปีย</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Chapter Content */}
+      <div
+        className="chapter-content"
+        style={{
+          fontSize: `${fontSize}px`,
+          fontFamily: fontFamily === 'serif' ? 'Sarabun' : 'Kanit',
+          lineHeight: lineHeight,
+        }}
+      >
+        <h1>{currentChapter.title}</h1>
+        <p>{currentChapter.content}</p>
+      </div>
+
+      {/* Navigation */}
+      <div className="chapter-nav">
+        <button>← ตอนก่อนหน้า</button>
+        <button>รายการตอน</button>
+        <button>ตอนถัดไป →</button>
+      </div>
+    </div>
+  );
+}
+```
+
+**ความสำคัญ:**
+- ให้ผู้ใช้ปรับขนาดตัวอักษร ฟอนต์ ระยะห่างบรรทัด ธีมการอ่าน
+- ใช้ inline style เพื่อใช้ค่า state
+- มีปุ่มนำทางไปตอนก่อนหน้า/ถัดไป
+
+---
+
+## 🔄 Flow ของการทำงาน
+
+### 1. **เมื่อผู้ใช้เข้าเว็บไซต์:**
+```
+1. App.tsx โหลด
+2. ThemeProvider ตรวจสอบ localStorage เพื่อดึงธีมที่บันทึกไว้
+3. Router นำทางไปหน้า Home
+4. Home.tsx โหลด Hero Images และ Novel Data จาก data.ts
+5. Hero Carousel เริ่มหมุนอัตโนมัติ
+```
+
+### 2. **เมื่อผู้ใช้คลิกปุ่มเปลี่ยนธีม:**
+```
+1. ปุ่มธีมใน Navbar/AppBar ถูกคลิก
+2. toggleTheme() ถูกเรียก
+3. ThemeContext อัปเดต theme state
+4. CSS class 'dark' ถูกเพิ่ม/ลบจาก <html>
+5. CSS Variables เปลี่ยนสี
+6. localStorage อัปเดตการตั้งค่า
+```
+
+### 3. **เมื่อผู้ใช้ค้นหานิยาย:**
+```
+1. ผู้ใช้พิมพ์ในช่องค้นหา
+2. query state อัปเดต
+3. filter() ค้นหานิยายที่ตรงกัน
+4. ผลการค้นหาแสดงบนหน้าจอ
+```
+
+### 4. **เมื่อผู้ใช้อ่านนิยาย:**
+```
+1. ผู้ใช้คลิกการ์ดนิยาย
+2. Router นำทางไปหน้า Read
+3. ReadChapter.tsx โหลดเนื้อหาตอน
+4. ผู้ใช้ปรับตั้งค่า (ขนาดตัวอักษร, ธีม)
+5. inline style อัปเดต
+```
+
+---
+
+## 🎯 สรุป
+
+| ส่วนประกอบ | หน้าที่ | ตัวอย่าง |
+|----------|--------|---------|
+| **App.tsx** | จัดการ routing และ theme | เลือกหน้าไหนจะแสดง |
+| **index.css** | CSS global และ variables | สีพื้นหลัง, ฟอนต์ |
+| **data.ts** | เก็บข้อมูลนิยาย | ข้อมูล 6 เรื่องตัวอย่าง |
+| **ThemeContext** | จัดการ Dark/Light Mode | เปลี่ยนธีมทั่วทั้งแอป |
+| **Navbar** | แถบนำทางด้านบน | ค้นหา, ปุ่มธีม |
+| **AppBar** | แถบนำทางล่าง (Mobile) | 4 ปุ่มหลัก |
+| **NovelCard** | การ์ดนิยาย | แสดงข้อมูลนิยาย |
+| **Home** | หน้าแรก | Hero, อัปเดตล่าสุด, Top 10 |
+| **Search** | หน้าค้นหา | ค้นหา, กรอง, เรียงลำดับ |
+| **ReadChapter** | หน้าอ่านนิยาย | ปรับตั้งค่าการอ่าน |
+
+---
+
+## 💡 เทคโนโลยีที่ใช้
+
+| เทคโนโลยี | ใช้สำหรับ |
+|----------|---------|
+| **React 19** | สร้าง UI Components |
+| **TypeScript** | Type Safety |
+| **Wouter** | Client-side Routing |
+| **CSS3** | Styling และ Layout |
+| **LocalStorage** | บันทึกการตั้งค่า |
+| **Context API** | State Management (Theme) |
+
+---
+
+## 🚀 ขั้นตอนการทำงาน (Full Stack)
+
+### Frontend (ส่วนที่ผู้ใช้เห็น):
+1. ✅ HTML Structure (Semantic HTML)
+2. ✅ CSS Styling (Dark/Light Mode, Responsive)
+3. ✅ JavaScript/React (Interactivity)
+
+### Backend (ส่วนที่ซ่อนอยู่):
+- ⏳ API Endpoints (ยังไม่ทำ)
+- ⏳ Database (ยังไม่ทำ)
+- ⏳ User Authentication (ยังไม่ทำ)
+
+---
+
+**สร้างโดย:** NoveLand Development Team
+**วันที่:** 2026
+**เวอร์ชัน:** 1.0
